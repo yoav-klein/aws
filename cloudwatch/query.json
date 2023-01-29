@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "mymetric",
+   "Expression": "SELECT SUM(ServerStats) FROM SCHEMA(DataCenter, Location,Server) GROUP BY Location ORDER BY MAX() DESC",
+   "Period": 900,
+    "ReturnData": true,
+    "AccountId": "550160070801"
+  }
+]
