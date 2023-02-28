@@ -61,67 +61,25 @@ resource "aws_key_pair" "this" {
   public_key = file("aws.pub")
 }
 
-resource "aws_instance" "prod_web" {
-
-  ami                  = var.ami
-  key_name             = "cw_test_key"
-  instance_type        = var.instance_type
-  vpc_security_group_ids  = [aws_security_group.this.id]
-  subnet_id = data.aws_subnets.default_subnets.ids[0]
-
-  tags = {
-    Name = "instance1"
-    app = "web"
-    environment = "prod"
-  }
-
+locals {
+    environments = ["prod", "dev"]
+    teams = [ "yossi", "gadi", "boris" ]
 }
 
-resource "aws_instance" "prod_auth" {
+resource "aws_instance" "this" {
+    count = 8
 
-  ami                  = var.ami
-  key_name             = "cw_test_key"
-  instance_type        = var.instance_type
-  vpc_security_group_ids  = [aws_security_group.this.id]
-  subnet_id = data.aws_subnets.default_subnets.ids[0]
-
-  tags = {
-    Name = "instance1"
-    app = "auth"
-    environment = "prod"
+    ami = var.ami
+    key_name = "cw_test_key"
+    instance_type = var.instance_type
+    vpc_security_group_ids = [aws_security_group.this.id]
+    subnet_id = data.aws_subnets.default_subnets.ids[ count.index % length(data.aws_subnets.default_subnets) ]
+    monitoring = true
+    tags = {
+      Name = "cw_test${count.index}"
+      team = "${local.teams[ count.index % length(local.teams) ]}"
+      environment = "${local.environments[ count.index % length(local.environments) ]}"
   }
-
-}
-
-resource "aws_instance" "dev_web" {
-
-  ami                  = var.ami
-  key_name             = "cw_test_key"
-  instance_type        = var.instance_type
-  vpc_security_group_ids  = [aws_security_group.this.id]
-  subnet_id = data.aws_subnets.default_subnets.ids[0]
-
-  tags = {
-    Name = "instance1"
-    app = "web"
-    environment = "dev"
-  }
-
-}
-
-resource "aws_instance" "dev_auth" {
-
-  ami                  = var.ami
-  key_name             = "cw_test_key"
-  instance_type        = var.instance_type
-  vpc_security_group_ids  = [aws_security_group.this.id]
-  subnet_id = data.aws_subnets.default_subnets.ids[0]
-
-  tags = {
-    Name = "instance1"
-    app = "auth"
-    environment = "dev"
-  }
-
+   
 }
 

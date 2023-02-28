@@ -8,7 +8,8 @@ variable "instance_type" {
 variable "ami" {
     type = string
     description = "AMI. Default to Amazon Linux"
-    default = "ami-03dbf0c122cb6cf1d"
+#    default = "ami-03dbf0c122cb6cf1d"
+    default = "ami-0e2162f7f3582e92f"
 }
 
 

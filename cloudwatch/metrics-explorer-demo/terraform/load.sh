@@ -9,7 +9,7 @@ while true; do
     echo "Loading.."
     stress -c 1 -t 20
     echo "Sleeping.."
-    sleep 20
+    sleep 10
 done
 
 
