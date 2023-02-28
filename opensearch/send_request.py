@@ -1,10 +1,21 @@
+
+"""
+    A demo script for making API requests to AWS OpenSearch
+
+    This script uses both opensearch-py - which is a package for making API calls to OpenSearch,
+    regardless of AWS, and boto3 which is a package for issuing requests to AWS
+
+    boto3 is used to sign the requests with AWS Signature Version 4
+
+"""
+
+
 from opensearchpy import OpenSearch, RequestsHttpConnection, AWSV4SignerAuth
 import boto3
 
 
-host = 'search-mydomain-f7wecysa6zczv2ihyyg77k42k4.us-east-1.es.amazonaws.com' # cluster endpoint, for example: my-test-domain.us-east-1.es.amazonaws.com
-# no / in the end, no http://
-region = 'us-east-1' # e.g. us-west-1
+host = 'search-example-xl5pyvwuyfo7oraljyjkh5t5pi.us-east-1.es.amazonaws.com' # no / in the end, no http://
+region = 'us-east-1'
 
 def create_client():
     credentials = boto3.Session().get_credentials()
@@ -89,8 +100,8 @@ def list_indices(client):
 
 if __name__ == "__main__":
     client = create_client()
-#    create_index(client, "unclassified", 3)
+    #create_index(client, "secret", 3)
     #list_indices(client)
-    #index_document(client, 'secret_index')
-    #run_query(client, 'secret_index')
+    #index_document(client, 'unclassified')
+    #run_query(client, 'secret')
     run_query(client, 'unclassified')
