@@ -7,7 +7,9 @@ In this example, we'll create several EC2 instances. Those instances will have t
 The `team` may be either `yossi` `gadi` or `boris`.
 The `environment` will be either `dev` or `prod`.
 
-## 1. Apply the Terraform configuration
+## Running the example
+
+### 1. Apply the Terraform configuration
 Run the terraform configuration to apply this.
 
 ```
@@ -17,7 +19,7 @@ export AWS_REGION=us-east-1
 ./run_tf apply -auto-approve
 ```
 
-## 2. Create CPU load
+### 2. Create CPU load
 
 Next, we'll run varying CPU loads on each of these instances.
 ```
@@ -26,12 +28,15 @@ Next, we'll run varying CPU loads on each of these instances.
 
 Then, we'll explore the CPUUtilization of these instances based on environment, and based on app.
 
-## 3. Stop
+### 3. Stop
 You can stop the CPU load:
 ```
 ./run_workload.sh stop
 ```
 
 
+## Inspecting the Metrics Explorer
 
+See in our Google Docs: AWS -> CloudWatch -> Tasks document, in the "Metrics Explorer - demo 2" section,
+there we'll bring screenshots and explanations.
 
