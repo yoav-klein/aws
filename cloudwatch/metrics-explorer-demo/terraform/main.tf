@@ -8,6 +8,8 @@ terraform {
     }
 }
 
+provider "aws" {}
+
 data "aws_vpc" "default" {
   default = true
 }
@@ -64,10 +66,13 @@ resource "aws_key_pair" "this" {
 locals {
     environments = ["prod", "dev"]
     teams = [ "yossi", "gadi", "boris" ]
+    envs_teams = setproduct(local.environments, local.teams)
 }
 
+
+
 resource "aws_instance" "this" {
-    count = 8
+    count = 9
 
     ami = var.ami
     key_name = "cw_test_key"
@@ -77,8 +82,8 @@ resource "aws_instance" "this" {
     monitoring = true
     tags = {
       Name = "cw_test${count.index}"
-      team = "${local.teams[ count.index % length(local.teams) ]}"
-      environment = "${local.environments[ count.index % length(local.environments) ]}"
+      team = "${local.envs_teams[ count.index % length(local.envs_teams) ][1]}"
+      environment = "${local.envs_teams[ count.index % length(local.envs_teams) ][0]}"
   }
    
 }

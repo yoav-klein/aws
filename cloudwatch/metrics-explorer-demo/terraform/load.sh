@@ -6,10 +6,10 @@ if ! command -v stress; then
     sudo apt-get install stress
 fi
 while true; do
-    echo "Loading.."
-    stress -c 1 -t 20
+    echo "Loading CPU.."
+    stress -c 1 -t $(( $RANDOM % 60 ))
     echo "Sleeping.."
-    sleep 10
+    sleep $(( $RANDOM % 60 ))
 done
 
 
