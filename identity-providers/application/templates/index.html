@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Microsoft Identity Python Web App</h1>
+    <h2>Welcome {{ name }}!</h2>
+    
+    <h2>These are your buckets:</h2>
+    {% for bucket in buckets %}
+      <li>{{ bucket.Name }}</a></li>
+    {% endfor %}
+
+    <li><a href="/logout">Logout</a></li>
+    <hr>
+    <footer style="text-align: right">Powered by MSAL Python {{ version }}</footer>
+</body>
+</html>
+
