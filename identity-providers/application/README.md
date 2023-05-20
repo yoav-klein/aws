@@ -1,5 +1,5 @@
 
-## Background
+# Background
 ---
 We use Azure AD as the IdP. We create an _App registration_, which represent an application.
 Once we register an application, we get an _Application ID_, which recognizes it.
@@ -10,28 +10,28 @@ Then, we configure a _Identity provider_ entity in AWS IAM. This entity represen
 by the _Provider URL_. Within an IdP, we have one or more _audiences_, which are the Application IDs that we've registered
 with the IdP.
 
-## What it does
+# What it does
 ---
 We'll create an S3 bucket in AWS, and view it using a user in Azure AD.
 
-## Set the stage
+# Set the stage
 ---
-### In Azure
+## In Azure
 Create an App registration in Azure AD. This will provide you with the Application ID.
 Make sure to correctly set the Redirect URI.
 
-### In AWS
+## In AWS
 
-#### Create an S3 bucket
+### Create an S3 bucket
 1. Create an S3 bucket, and put some files there.
 
-#### Create an Identity provider
+### Create an Identity provider
 Create the _Identity provider_ in AWS IAM. The 2 parameters you need to give are:
 * Provider URL: Take this from the Endpoints of your App registration. This is the base URL of the endpoints, in the form: `https://login.microsoftonline.com/3bfb3df7-6b1e-447a-8dfc-cac205f2e79f/v2.0`
 * Audience: This is the Application ID provided Azure AD when you registered the application.
 
 
-#### Create a role
+### Create a role
 Now we need to create a IAM role, give it permissions to the S3 bucket, and let the federated users
 assume it.
 
@@ -48,7 +48,7 @@ Take a look at the `trust_policy.json`. Let's break it down:
 
 3. Create the Role using the `AWS-Commands.ps1` script.
 
-## Flow
+# Flow
 ---
 This application is a web application, listening on port 5000.
 
