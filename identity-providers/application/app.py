@@ -52,7 +52,12 @@ def index():
 
     headers = {'Accept': 'application/json'}
     resp = requests.get(aws_uri, headers=headers)
-    resp.raise_for_status()
+    
+    try:
+        resp.raise_for_status()
+    except:
+        print(resp.text)
+        raise
 
     credentials = resp.json()['AssumeRoleWithWebIdentityResponse']['AssumeRoleWithWebIdentityResult']['Credentials']
     
@@ -94,7 +99,7 @@ def authorized():
     
     resp = requests.post(token_endpoint, data=query_string).json()
     
-    print(f"DEBUG:: in authorized, after post to token endpoint, received: {resp}")
+    print(f"DEBUG:: in authorized, after POST to token endpoint, received: {resp}")
     session['user'] = jwt.decode(resp['id_token'], options={"verify_signature": False})
     session['id_token'] = resp['id_token']
     session['access_token'] = resp['access_token']

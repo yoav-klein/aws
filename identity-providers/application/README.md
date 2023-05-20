@@ -12,7 +12,7 @@ with the IdP.
 
 ## What it does
 ---
-We'll create an S3 bucket in AWS, and access it using a user in Azure AD.
+We'll create an S3 bucket in AWS, and view it using a user in Azure AD.
 
 ## Set the stage
 ---
@@ -44,15 +44,9 @@ Take a look at the `trust_policy.json`. Let's break it down:
 2. Fill in the values is `trust_policy.json`:
 * `<account_id>` - The AWS account ID
 * `<app_id>` - The Application ID you got from Azure AD
-* `<provider_url>` - `https://login.microsoftonline.com/<tenant_id>/v2.0`
+* `<azure_tenant_id>` - The tenant ID in Azure
 
-3. Create the role as such:
-```
-$ aws iam create-role --assume-role-policy-document file://./trust_policy.json --role-name azureIdPRole 
-$ aws iam create-policy --policy-name azureIdpPolicy --policy-document file://./access_policy.json
-$ aws iam attach-role-policy --policy-arn arn:aws:iam::<account_id>:policy/azureIdpPolicy --role-name azureIdPRole
-```
-
+3. Create the Role using the `AWS-Commands.ps1` script.
 
 ## Flow
 ---

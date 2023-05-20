@@ -4,12 +4,12 @@
         {
             "Effect": "Allow",
             "Principal": {
-                "Federated": "arn:aws:iam::<account_id>:oidc-provider/<provider_url>"
+                "Federated": "arn:aws:iam::<account_id>:oidc-provider/login.microsoftonline.com/<az_tenant_id>/v2.0"
             },
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {
                 "StringEquals": {
-                    "<provider_url>:aud": "<app_id>"
+                    "login.microsoftonline.com/<az_tenant_id>/v2.0:aud": "<app_id>"
                 }
             }
         }
