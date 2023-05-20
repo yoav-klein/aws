@@ -30,6 +30,7 @@ Create the _Identity provider_ in AWS IAM. The 2 parameters you need to give are
 * Provider URL: Take this from the Endpoints of your App registration. This is the base URL of the endpoints, in the form: `https://login.microsoftonline.com/3bfb3df7-6b1e-447a-8dfc-cac205f2e79f/v2.0`
 * Audience: This is the Application ID provided Azure AD when you registered the application.
 
+
 #### Create a role
 Now we need to create a IAM role, give it permissions to the S3 bucket, and let the federated users
 assume it.
@@ -40,13 +41,18 @@ Take a look at the `trust_policy.json`. Let's break it down:
 * The `Action` field say that it is assumable using Web Identity, i.e. OIDC.
 
 1. Change the bucket name in the `access_policy.json` file
-2. Change the <tenant_id> and <application_id> and <account_id> in the `trust_policy.json`
+2. Fill in the values is `trust_policy.json`:
+* `<account_id>` - The AWS account ID
+* `<app_id>` - The Application ID you got from Azure AD
+* `<provider_url>` - `https://login.microsoftonline.com/<tenant_id>/v2.0`
+
 3. Create the role as such:
 ```
 $ aws iam create-role --assume-role-policy-document file://./trust_policy.json --role-name azureIdPRole 
 $ aws iam create-policy --policy-name azureIdpPolicy --policy-document file://./access_policy.json
 $ aws iam attach-role-policy --policy-arn arn:aws:iam::<account_id>:policy/azureIdpPolicy --role-name azureIdPRole
 ```
+
 
 ## Flow
 ---
