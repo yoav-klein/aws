@@ -18,7 +18,7 @@ We'll create an S3 bucket in AWS, and view it using a user in Azure AD.
 ---
 ## In Azure
 Create an App registration in Azure AD. This will provide you with the Application ID.
-Make sure to correctly set the Redirect URI.
+Make sure to correctly set the Redirect URI. It should match the value in `app_config.py`
 
 ## In AWS
 
@@ -32,7 +32,7 @@ Create the _Identity provider_ in AWS IAM. The 2 parameters you need to give are
 
 
 ### Create a role
-Now we need to create a IAM role, give it permissions to the S3 bucket, and let the federated users
+Now we need to create a IAM role, give it permissions to the S3 bucket (actually, all the S3 buckets), and let the federated users
 assume it.
 
 Take a look at the `trust_policy.json`. Let's break it down:
@@ -47,6 +47,16 @@ Take a look at the `trust_policy.json`. Let's break it down:
 * `<azure_tenant_id>` - The tenant ID in Azure
 
 3. Create the Role using the `AWS-Commands.ps1` script.
+
+## Configure this application
+Set the values in `app_config.py` file:
+* `CLIENT_ID` - the Application ID in Azure
+* `CLIENT_SECRET` - received when registering the application in Azure
+* `AZ_TENANT_ID` - the tenant ID in Azure
+* `AWS_ACCOUNT_ID` - AWS Account ID
+* `AWS_ROLE_NAME` - the role name. should match the one in `AWS-Commands.ps1`
+* `REDIRECT_PATH` - Should match what we've configured in the Azure App registration
+
 
 # Flow
 ---
