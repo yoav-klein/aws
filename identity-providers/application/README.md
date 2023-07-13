@@ -1,5 +1,5 @@
 
-## Background
+# Background
 ---
 We use Azure AD as the IdP. We create an _App registration_, which represent an application.
 Once we register an application, we get an _Application ID_, which recognizes it.
@@ -10,29 +10,29 @@ Then, we configure a _Identity provider_ entity in AWS IAM. This entity represen
 by the _Provider URL_. Within an IdP, we have one or more _audiences_, which are the Application IDs that we've registered
 with the IdP.
 
-## What it does
+# What it does
 ---
-We'll create an S3 bucket in AWS, and access it using a user in Azure AD.
+We'll create an S3 bucket in AWS, and view it using a user in Azure AD.
 
-## Set the stage
+# Set the stage
 ---
-### In Azure
+## In Azure
 Create an App registration in Azure AD. This will provide you with the Application ID.
-Make sure to correctly set the Redirect URI.
+Make sure to correctly set the Redirect URI. It should match the value in `app_config.py`
 
-### In AWS
+## In AWS
 
-#### Create an S3 bucket
+### Create an S3 bucket
 1. Create an S3 bucket, and put some files there.
 
-#### Create an Identity provider
+### Create an Identity provider
 Create the _Identity provider_ in AWS IAM. The 2 parameters you need to give are:
 * Provider URL: Take this from the Endpoints of your App registration. This is the base URL of the endpoints, in the form: `https://login.microsoftonline.com/3bfb3df7-6b1e-447a-8dfc-cac205f2e79f/v2.0`
 * Audience: This is the Application ID provided Azure AD when you registered the application.
 
 
-#### Create a role
-Now we need to create a IAM role, give it permissions to the S3 bucket, and let the federated users
+### Create a role
+Now we need to create a IAM role, give it permissions to the S3 bucket (actually, all the S3 buckets), and let the federated users
 assume it.
 
 Take a look at the `trust_policy.json`. Let's break it down:
@@ -44,14 +44,18 @@ Take a look at the `trust_policy.json`. Let's break it down:
 2. Fill in the values is `trust_policy.json`:
 * `<account_id>` - The AWS account ID
 * `<app_id>` - The Application ID you got from Azure AD
-* `<provider_url>` - `https://login.microsoftonline.com/<tenant_id>/v2.0`
+* `<azure_tenant_id>` - The tenant ID in Azure
 
-3. Create the role as such:
-```
-$ aws iam create-role --assume-role-policy-document file://./trust_policy.json --role-name azureIdPRole 
-$ aws iam create-policy --policy-name azureIdpPolicy --policy-document file://./access_policy.json
-$ aws iam attach-role-policy --policy-arn arn:aws:iam::<account_id>:policy/azureIdpPolicy --role-name azureIdPRole
-```
+3. Create the Role using the `AWS-Commands.ps1` script.
+
+## Configure this application
+Set the values in `app_config.py` file:
+* `CLIENT_ID` - the Application ID in Azure
+* `CLIENT_SECRET` - received when registering the application in Azure
+* `AZ_TENANT_ID` - the tenant ID in Azure
+* `AWS_ACCOUNT_ID` - AWS Account ID
+* `AWS_ROLE_NAME` - the role name. should match the one in `AWS-Commands.ps1`
+* `REDIRECT_PATH` - Should match what we've configured in the Azure App registration
 
 ## Run
 
@@ -63,7 +67,7 @@ Run this on a Windows machine, because you need to run this application from the
 4. Now you should see the objects in the Bucket
 
 
-## Flow
+# Flow
 ---
 This application is a web application, listening on port 5000.
 
