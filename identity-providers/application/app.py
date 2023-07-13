@@ -10,6 +10,7 @@ from flask import Flask, url_for, redirect, session
 import app_config
 
 app = Flask(__name__)
+
 app.config.from_object(app_config)
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -42,8 +43,10 @@ def construct_auth_endpoint_url():
 @app.route("/")
 def index():
     if "user" not in session:
+        print("DEBUG: User not authenticated, redireting to authetication")
         return redirect(url_for("login"))
     
+    print("DEBUG: User authenticated")
     id_token = session['id_token']
 
     aws_account_id = app_config.AWS_ACCOUNT_ID
@@ -103,7 +106,7 @@ def authorized():
 
 def main():
     configure_op()
-    app.run()
+    app.run(host='0.0.0.0')
 
 if __name__ == "__main__":
     main()

@@ -53,6 +53,15 @@ $ aws iam create-policy --policy-name azureIdpPolicy --policy-document file://./
 $ aws iam attach-role-policy --policy-arn arn:aws:iam::<account_id>:policy/azureIdpPolicy --role-name azureIdPRole
 ```
 
+## Run
+
+Run this on a Windows machine, because you need to run this application from the same machine as you run the browser.
+
+1. Run the application: `pyhton3 app.py`
+2. Browse to the application using a browser
+3. Authenticate to Azure
+4. Now you should see the objects in the Bucket
+
 
 ## Flow
 ---

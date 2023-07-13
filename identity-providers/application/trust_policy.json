@@ -4,12 +4,12 @@
         {
             "Effect": "Allow",
             "Principal": {
-                "Federated": "arn:aws:iam::<account_id>:oidc-provider/<provider_url>"
+                "Federated": "arn:aws:iam::412825246027:oidc-provider/https://login.microsoftonline.com/3bfb3df7-6b1e-447a-8dfc-cac205f2e79f/v2.0"
             },
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {
                 "StringEquals": {
-                    "<provider_url>:aud": "<app_id>"
+                    "https://login.microsoftonline.com/3bfb3df7-6b1e-447a-8dfc-cac205f2e79f/v2.0:aud": "44f9493e-8d08-4cab-8d57-dbfbdfb5cec8"
                 }
             }
         }

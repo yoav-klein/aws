@@ -14,7 +14,7 @@ REDIRECT_PATH = "/getAToken"  # Used for forming an absolute URL to your redirec
 
 REDIRECT_URI = f"http://localhost:5000{REDIRECT_PATH}"
 
-AWS_ACCOUNT_ID = "023812455170"
+AWS_ACCOUNT_ID = "412825246027"
 
 AWS_ROLE_NAME = "azureIdPRole"
 
